@@ -13,7 +13,7 @@ Turn gifs into csv files that tableau can read
 ## Usage
 
 Just run `tableau-gif file.gif` and two csv files will be created in your cwd
-(One with unix line endings and one with windows line endings), as well as a zip
+(One with unix line endings and one with DOS line endings), as well as a zip
 file that contains both of them.
 
     $ tableau-gif rickroll.gif
