@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# you need imagemagick or graphicsmagick, also sed and perl
+# you need imagemagick or graphicsmagick, also sed and zip
 # this script will create LOTS of files in the cwd, but it should clean up after itself.  If it doesn't, run `rm ./(gif-filename)-frame*`
 
 rm -f ./$1-frame* # just in case
@@ -22,7 +22,7 @@ done
 rm -f ./$1-frame*
 
 echo "Converting $1.csv to use windows line endings"
-perl -p -e 's/\n/\r\n/' < $1.csv > $1_win.csv # windows line-endings
+sed 's/$'"/`echo \\\r`/" $1.csv > $1_win.csv # windows line-endings: why is this so hard
 
 echo "Adding $1.csv and $1_win.csv to $1-csv.zip"
 rm -f ./$1-csv.zip
