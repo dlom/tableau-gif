@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
+
 # you need imagemagick or graphicsmagick, also sed and perl
 # this script will create LOTS of files in the cwd, but it should clean up after itself.  If it doesn't, run `rm ./(gif-filename)-frame*`
 
-convert $1 $1-frame-%06d.png # we wont ever have more than a million frames, will we?
+convert $1 -flip flipped-$1 # tableau's origin is different than imagemagick's
+convert flipped-$1 $1-frame-%06d.png # we wont ever have more than a million frames, will we?
+rm flipped-$1
 rm -f ./$1*.csv
 
 count=$(($(ls -1 | grep frame | wc -l) - 1))
