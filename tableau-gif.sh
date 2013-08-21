@@ -17,3 +17,4 @@ done
 rm -f ./$1-frame*
 
 perl -p -e 's/\n/\r\n/' < $1.csv > $1_win.csv # windows line-endings
+zip $1-csv.zip $1.csv $1_win.csv
