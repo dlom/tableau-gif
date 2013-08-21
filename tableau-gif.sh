@@ -4,6 +4,9 @@
 
 tmp_dir=$(mktemp -d)
 
+echo "Removing old files..."
+rm ./$1*csv* # don't use gifs that have 'csv' in the name
+
 convert $1 -flip $tmp_dir/flipped-$1 # tableau's origin is different than imagemagick's
 echo "Splitting apart $1 into frames..."
 convert $tmp_dir/flipped-$1 $tmp_dir/$1-frame-%06d.png # we wont ever have more than a million frames, will we?
@@ -17,6 +20,7 @@ for FRAME in `seq -f %06g 0 $count`; do
     convert $tmp_dir/$1-frame-$FRAME.png $tmp_dir/$1-frame-$FRAME.txt
     sed "s/^\([0-9]\{1,3\}\),\([0-9]\{1,3\}\): ([ ]*\([0-9]\{1,3\}\),[ ]*\([0-9]\{1,3\}\),[ ]*\([0-9]\{1,3\}\).*/\1,\2,\3,\4,\5,$FRAME/g" $tmp_dir/$1-frame-$FRAME.txt >> $1.csv # agh
 done
+echo "Created '$1.csv'"
 
 echo "Converting $1.csv to use windows line-endings..."
 sed 's/$'"/`echo \\\r`/" $1.csv > $1_win.csv # windows line-endings: why is this so hard
