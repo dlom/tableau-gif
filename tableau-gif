@@ -5,7 +5,7 @@
 tmp_dir=$(mktemp -d)
 
 echo "Removing old files..."
-rm ./$1*csv* # don't use gifs that have 'csv' in the name
+rm -f ./$1*csv* # don't use gifs that have 'csv' in the name
 
 convert $1 -flip $tmp_dir/flipped-$1 # tableau's origin is different than imagemagick's
 echo "Splitting apart $1 into frames..."
