@@ -11,7 +11,7 @@ rm -f ./$name*csv* # don't use gifs that have 'csv' in the name
 
 convert $1 -flip $tmp_dir/flipped-$1 # tableau's origin is different than imagemagick's
 echo "Splitting apart $1 into frames..."
-convert $tmp_dir/flipped-$1 $tmp_dir/$name-frame-%06d.png # we wont ever have more than a million frames, will we?
+convert $tmp_dir/flipped-$1 -coalesce $tmp_dir/$name-frame-%06d.png # we wont ever have more than a million frames, will we?
 
 real_count=$(ls -1 $tmp_dir | grep $name-frame- | wc -l)
 count=$(($real_count - 1))
