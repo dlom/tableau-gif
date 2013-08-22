@@ -3,31 +3,33 @@
 # you need imagemagick or graphicsmagick, also sed and zip
 
 tmp_dir=$(mktemp -d)
+name_with_ext=$(basename $1)
+name="${name_with_ext%.*}"
 
 echo "Removing old files..."
-rm -f ./$1*csv* # don't use gifs that have 'csv' in the name
+rm -f ./$name*csv* # don't use gifs that have 'csv' in the name
 
 convert $1 -flip $tmp_dir/flipped-$1 # tableau's origin is different than imagemagick's
 echo "Splitting apart $1 into frames..."
-convert $tmp_dir/flipped-$1 $tmp_dir/$1-frame-%06d.png # we wont ever have more than a million frames, will we?
+convert $tmp_dir/flipped-$1 $tmp_dir/$name-frame-%06d.png # we wont ever have more than a million frames, will we?
 
-real_count=$(ls -1 $tmp_dir | grep $1-frame- | wc -l)
+real_count=$(ls -1 $tmp_dir | grep $name-frame- | wc -l)
 count=$(($real_count - 1))
 echo "Found $real_count frames in $1"
-echo '"x","y","r","g","b","frame"' >> $1.csv
+echo '"x","y","r","g","b","frame"' >> $name.csv
 for FRAME in `seq -f %06g 0 $count`; do
-    echo "Adding frame $FRAME to $1.csv..."
-    convert $tmp_dir/$1-frame-$FRAME.png $tmp_dir/$1-frame-$FRAME.txt
-    sed "s/^\([0-9]\{1,3\}\),\([0-9]\{1,3\}\): ([ ]*\([0-9]\{1,3\}\),[ ]*\([0-9]\{1,3\}\),[ ]*\([0-9]\{1,3\}\).*/\1,\2,\3,\4,\5,$FRAME/g" $tmp_dir/$1-frame-$FRAME.txt >> $1.csv # agh
+    echo "Adding frame $FRAME to $name.csv..."
+    convert $tmp_dir/$name-frame-$FRAME.png $tmp_dir/$name-frame-$FRAME.txt
+    sed "s/^\([0-9]\{1,3\}\),\([0-9]\{1,3\}\): ([ ]*\([0-9]\{1,3\}\),[ ]*\([0-9]\{1,3\}\),[ ]*\([0-9]\{1,3\}\).*/\1,\2,\3,\4,\5,$FRAME/g" $tmp_dir/$name-frame-$FRAME.txt >> $name.csv # agh
 done
-echo "Created '$1.csv'"
+echo "Created '$name.csv'"
 
-echo "Converting $1.csv to use windows line-endings..."
-sed 's/$'"/`echo \\\r`/" $1.csv > $1_win.csv # windows line-endings: why is this so hard
+echo "Converting $name.csv to use windows line-endings..."
+sed 's/$'"/`echo \\\r`/" $name.csv > ${name}_win.csv # windows line-endings: why is this so hard
 
-echo "Adding $1.csv and $1_win.csv to $1-csv.zip..."
-rm -f ./$1-csv.zip
-zip $1-csv.zip $1.csv $1_win.csv -q
+echo "Adding $name.csv and $name_win.csv to $name-csv.zip..."
+rm -f ./$name.zip
+zip $name.zip $name.csv ${name}_win.csv -q
 
 echo "Cleaning up..."
 rm -rf $tmp_dir
