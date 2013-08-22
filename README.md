@@ -10,6 +10,8 @@ Turn gifs into csv files that tableau can read
 
 `tableau-gif` is a [shell script][bin], so drop it somewhere in your `$PATH`
 
+You need `imagemagick` or `graphicsmagick` to make this work.
+
 ## Usage
 
 Just run `tableau-gif file.gif` and a csv file will be created in your cwd.
