@@ -27,7 +27,22 @@ could be disastrous.
 
 ## Using the output with tableau
 
-Tableau is wizardry.  I've never used it.  I just generate these awesome csv files.
+Super complex steps: Follow these and don't miss anything.
+1. Create a new sheet and connect it with the csv data (just use the defaults, everything should work)
+2. Change `x` and `y` from `Measures` to `Dimension` (drag) and convert them both to continuous
+3. Drag the `x` measure onto `Columns` and `y` onto `Rows`.
+4. Make a calculated measure that is the sum of r, g, and b.  Drag this calculated measure onto `Color`
+5. Edit the colors:
+ * Click the little colored box, change it to pure black, and click OK.
+ * Check `Reversed`
+ * Under `Advanced`, change `Start` to `0` and `End` to `765`
+6. Change `frame` from a Measure to a Dimension
+7. Drag `frame` to `Pages`
+8. Wait
+9. Adjust the `Size` scale for best results
+9. Done!  Change frames by changing `Pages` parameters.
+10. If it didn't work, open a new [issue][issue] (with a screenshot preferably)
 
 [bin]: https://github.com/Dlom/tableau-gif/blob/master/tableau-gif
 [dl]:  https://raw.github.com/Dlom/tableau-gif/master/tableau-gif
+[issue]: https://github.com/Dlom/tableau-gif/issues/new
