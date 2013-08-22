@@ -28,6 +28,7 @@ could be disastrous.
 ## Using the output with tableau
 
 Super complex steps: Follow these and don't miss anything.
+
 1. Create a new sheet and connect it with the csv data (just use the defaults, everything should work)
 2. Change `x` and `y` from `Measures` to `Dimension` (drag) and convert them both to continuous
 3. Drag the `x` measure onto `Columns` and `y` onto `Rows`.
