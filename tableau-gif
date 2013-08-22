@@ -24,12 +24,9 @@ for FRAME in `seq -f %06g 0 $count`; do
 done
 echo "Created '$name.csv'"
 
-echo "Converting $name.csv to use windows line-endings..."
-sed 's/$'"/`echo \\\r`/" $name.csv > ${name}_win.csv # windows line-endings: why is this so hard
-
-echo "Adding $name.csv and $name_win.csv to $name-csv.zip..."
+echo "Zipping up $name.csv to $name.zip..."
 rm -f ./$name.zip
-zip $name.zip $name.csv ${name}_win.csv -q
+zip $name.zip $name.csv -q
 
 echo "Cleaning up..."
 rm -rf $tmp_dir
