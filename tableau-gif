@@ -2,7 +2,7 @@
 
 # you need imagemagick or graphicsmagick, also sed and zip
 
-tmp_dir=$(mktemp -d)
+tmp_dir=$(mktemp -d /tmp/tmp.XXXXXXXXXX)
 name_with_ext=$(basename $1)
 name="${name_with_ext%.*}"
 
